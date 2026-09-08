@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Student Management System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Mobile Sidebar Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- Sidebar -->
+    <aside class="app-sidebar" id="appSidebar">
+        <a href="dashboard.html" class="sidebar-brand">
+            <i class="bi bi-mortarboard-fill"></i>
+            <span>SMS Portal</span>
+        </a>
+
+        <ul class="sidebar-menu">
+            <li class="sidebar-item">
+                <a href="dashboard.html" class="sidebar-link">
+                    <i class="bi bi-grid-1x2-fill"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="students.html" class="sidebar-link">
+                    <i class="bi bi-people-fill"></i>
+                    <span>Students</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="add-student.html" class="sidebar-link">
+                    <i class="bi bi-person-plus-fill"></i>
+                    <span>Add Student</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="profile.html" class="sidebar-link active">
+                    <i class="bi bi-person-badge-fill"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <a href="#" class="sidebar-link text-danger btn-logout-action">
+                <i class="bi bi-box-arrow-left"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="app-main">
+        <!-- Top Navbar -->
+        <header class="app-navbar">
+            <div class="navbar-left">
+                <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h1 class="page-title">Administrator Profile</h1>
+            </div>
+
+            <div class="navbar-right">
+                <div class="user-profile-badge">
+                    <div class="user-avatar">A</div>
+                    <span class="user-name-text">Administrator</span>
+                </div>
+                <button class="btn-nav-logout btn-logout-action" title="Log out">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span class="d-none d-sm-inline">Logout</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Body -->
+        <main class="app-content">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <!-- Profile Card -->
+                    <div class="content-card">
+                        <div class="content-card-body p-4 text-center border-bottom bg-light">
+                            <div class="user-avatar mx-auto mb-3" style="width: 80px; height: 80px; font-size: 2rem; border-radius: 50%;">
+                                <span id="profileAvatarInitial">A</span>
+                            </div>
+                            <h4 class="fw-bold mb-1" id="profileUsername">-</h4>
+                            <p class="text-muted mb-2" id="profileEmail">-</p>
+                            <span class="badge bg-primary px-3 py-2 fs-6 rounded-pill" id="profileRole">ROLE_ADMIN</span>
+                        </div>
+
+                        <div class="content-card-body p-4">
+                            <h5 class="fw-bold mb-3"><i class="bi bi-shield-check text-primary me-2"></i>Security & Session Details</h5>
+
+                            <div class="list-group list-group-flush border rounded-3 mb-4">
+                                <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                    <div>
+                                        <strong>Authentication Standard</strong>
+                                        <div class="text-muted small">Cryptographic stateless authentication</div>
+                                    </div>
+                                    <span class="badge bg-success-subtle text-success">JWT (HMAC-SHA256)</span>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                    <div>
+                                        <strong>Password Protection</strong>
+                                        <div class="text-muted small">One-way salt-hashed credentials</div>
+                                    </div>
+                                    <span class="badge bg-info-subtle text-info">BCrypt Hashing</span>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                    <div>
+                                        <strong>Session Token Storage</strong>
+                                        <div class="text-muted small">Secure browser client token bearer</div>
+                                    </div>
+                                    <span class="badge bg-light text-dark border">Local Storage</span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end gap-2">
+                                <a href="dashboard.html" class="btn btn-secondary-custom">
+                                    <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+                                </a>
+                                <button type="button" class="btn btn-outline-danger btn-logout-action">
+                                    <i class="bi bi-box-arrow-right me-1"></i> Log Out
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Application Scripts -->
+<script src="js/auth.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        requireAuth();
+
+        const user = getUser();
+        if (user) {
+            document.getElementById("profileUsername").textContent = user.username || "Admin";
+            document.getElementById("profileEmail").textContent = user.email || "admin@studentmanagement.com";
+            document.getElementById("profileRole").textContent = user.role || "ROLE_ADMIN";
+            document.getElementById("profileAvatarInitial").textContent = (user.username || "A").charAt(0).toUpperCase();
+        }
+
+        // Fetch fresh data from /api/auth/me
+        try {
+            const res = await authFetch("/api/auth/me");
+            if (res.ok) {
+                const me = await res.json();
+                document.getElementById("profileUsername").textContent = me.username;
+                document.getElementById("profileEmail").textContent = me.email;
+                document.getElementById("profileRole").textContent = me.role;
+                document.getElementById("profileAvatarInitial").textContent = me.username.charAt(0).toUpperCase();
+            }
+        } catch (e) {
+            console.warn("Could not refresh profile from server:", e);
+        }
+    });
+</script>
+</body>
+</html>
